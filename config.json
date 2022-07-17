@@ -13,12 +13,12 @@
             {"temp": "59", "fan": "10"},
             {"temp": "60", "fan": "12"},
             {"temp": "61", "fan": "13"},
-			{"temp": "61.4", "fan": "14"},
-			{"temp": "61.6", "fan": "16"},
+            {"temp": "61.4", "fan": "14"},
+            {"temp": "61.6", "fan": "16"},
             {"temp": "62", "fan": "18"},
-			{"temp": "63", "fan": "20"},
+            {"temp": "63", "fan": "20"},
             {"temp": "64", "fan": "30"},
-			{"temp": "65", "fan": "35"},
+            {"temp": "65", "fan": "35"},
             {"temp": "66", "fan": "40"},
             {"temp": "68", "fan": "45"},
             {"temp": "70", "fan": "50"},
@@ -40,7 +40,7 @@
         ]
     },
     "activation-settings": {
-        "quiet-mode-force-on": true,
+        "quiet-mode-force-on": false,
         "quiet-mode-time-activation": true,
         "time-start": "20:00",
         "time-end": "6:00"
