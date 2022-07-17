@@ -9,7 +9,8 @@ A feature that I added for me was a __Quiet Mode__ a seperate fan curve that can
 
 
 
-##Installation:
+#Installation:
+------------
 ```
 apt-get install ipmitool nodejs npm screen git -y
 git https://github.com/TurlxTheHuman/ipmifan/
@@ -23,7 +24,8 @@ ipmitool raw 0x30 0x30 0x01 0x00
 
 ```
 
-##Running
+#Running
+------------
 This was made on a debian based machine, not tested on other operating systems but it still should work relatively the same
 
 You can run it in the same terminal
