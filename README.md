@@ -39,7 +39,7 @@ if you want it to be running despite closing ssh terminal
 > screen -S ipmifan node ipmifan.js
 
 
-Future Plans
+TODO
 --------------
-Will be workin on a docker container and some other things to make this work as best as possible and make it startup when machine starts up
-Make read all data using ipmitool so you can have -
+- Will be workin on a docker container and some other things to make this work as best as possible and make it startup when machine starts up
+- Make read all data using ipmitool so you can have script read and control multiple nodes
