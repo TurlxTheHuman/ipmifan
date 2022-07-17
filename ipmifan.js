@@ -7,8 +7,8 @@ This is great for small homelabs that may be in a room you dont want a ton of no
 
 future plans if for this script to calculate the speed the fan should be when the temperature is inbetween two values
 
-you need to have ipmitools installed on your machine
-apt-get install ipmitools
+you need to have ipmitool installed on your machine
+apt-get install ipmitool
 */
 
 
