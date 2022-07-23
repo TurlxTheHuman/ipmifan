@@ -9,12 +9,48 @@ future plans if for this script to calculate the speed the fan should be when th
 
 you need to have ipmitool installed on your machine
 apt-get install ipmitool
-*/
 
+
+
+Enable Manual Fan Control:
+ipmitool raw 0x30 0x30 0x01 0x00
+
+Disable Manual Fan Control:
+ipmitool raw 0x30 0x30 0x01 0x01
+
+*/
 
 const config = require("./config.json");
 const { exec } = require("child_process");
 const { stdout } = require("process");
+
+
+const commander = require('commander'); // Handles External Arguments
+const { urlToHttpOptions } = require("url");
+commander
+  .version('1.0.0', '-v, --version')
+  .usage('[OPTIONS]...')
+  .option('-m, --manual <value>', 'Sets A Static Fan Speed')
+  .parse(process.argv);
+  const options = commander.opts();
+
+
+
+
+if (options.manual) {
+    return fanspeed(options.manual)
+}
+
+
+
+
+
+
+
+// CODE START
+
+//ENABLES MANUAL FAN CONTROL
+//exec("ipmitool raw 0x30 0x30 0x01 0x00")
 
 
 
@@ -33,13 +69,14 @@ var sensor_temperature_command = "";
 const quiet_temp = []
 const normal_temp = []
 const curvearray = []
+const quietcurvearray = []
 
 for (var i = 0; i < config.fancurves.Quiet.length; i++) {
     quiet_temp.push(config.fancurves.Quiet[i].temp)
 }
 
 for (var i = 0; i < config.fancurves.Normal.length; i++) {
-    normal_temp.push(config.fancurves.Quiet[i].temp)
+    normal_temp.push(config.fancurves.Normal[i].temp)
 }
 
 // get/check temperature metric
@@ -80,7 +117,7 @@ function checkloop() {
         });
 
         for (var i = 0; i < config.fancurves.Quiet.length; i++) {
-            curvearray.push(config.fancurves.Quiet[i])
+            quietcurvearray.push(config.fancurves.Quiet[i])
 
             if (config.fancurves.Quiet[i].temp == closest) {
                 closest_fan_speed = config.fancurves.Quiet[i].fan
@@ -119,8 +156,6 @@ function checkloop() {
 //change fan speed
 function fanspeed(percentage) {
     var percentage_hex = ((percentage) >>> 0).toString(16);
-    //console.log(`Percentage: ${percentage}`)
-    //console.log(`HEX: ${percentage_hex}`)
     exec(`ipmitool raw 0x30 0x30 0x02 0xff 0x${percentage_hex}`, (error, stdout) => {
         fan_speed = percentage;
         if (error) {
@@ -137,3 +172,8 @@ async function loop() {
     setTimeout(loop, config["temp-scrape-interval"]);
 }
 loop()
+
+
+//process.on('exit', code => {
+//    exec("ipmitool raw 0x30 0x30 0x01 0x01") //Turns Off Manual Fan
+//  });
