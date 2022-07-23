@@ -20,37 +20,36 @@ ipmitool raw 0x30 0x30 0x01 0x01
 
 */
 
+
 const config = require("./config.json");
 const { exec } = require("child_process");
 const { stdout } = require("process");
+var quiet_mode_force_on = ''
+quiet_mode_force_on = config["activation-settings"]["quiet-mode-force-on"]
+
+//ENABLES MANUAL FAN CONTROL
+exec("ipmitool raw 0x30 0x30 0x01 0x00")
 
 
+//EXTERNAL ARGUMENTS
 const commander = require('commander'); // Handles External Arguments
 const { urlToHttpOptions } = require("url");
 commander
   .version('1.0.0', '-v, --version')
   .usage('[OPTIONS]...')
   .option('-m, --manual <value>', 'Sets A Static Fan Speed')
+  .option('-q, --quiet', 'Forces To Use Quiet Mode Fan Curve')
   .parse(process.argv);
   const options = commander.opts();
-
-
-
 
 if (options.manual) {
     return fanspeed(options.manual)
 }
 
-
-
-
-
-
-
-// CODE START
-
-//ENABLES MANUAL FAN CONTROL
-//exec("ipmitool raw 0x30 0x30 0x01 0x00")
+if (options.quiet) {
+    quiet_mode_force_on = true
+    console.log(quiet_mode_force_on)
+}
 
 
 
@@ -110,7 +109,7 @@ function checkloop() {
         temp = stdout
     })
 
-    if (quiet_time_activation == "1" | config["activation-settings"]["quiet-mode-force-on"] == true) {
+    if (quiet_time_activation == "1" | quiet_mode_force_on == true) {
         //enable quiet fan curve | grab fan curve values
         const closest = quiet_temp.reduce((prev, curr) => {
             return (Math.abs(curr - temp) < Math.abs(prev - temp) ? curr : prev);
