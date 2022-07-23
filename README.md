@@ -1,6 +1,8 @@
 # ipmifan
 IPMIFan is an ipmi based fan controller written in NodeJS
+
 Explaination/Summary:
+--------------
 
 ipmifan is a fan controller that uses ipmitool to manually set fan speeds
 this is ran on the machine you want to control
@@ -43,6 +45,9 @@ Other Options
 
 You can set a static fan speed using:
 > node ipmifan.js -m [VALUE]
+
+Force Activate Quiet Mode:
+> node ipmifan.js -q
 
 
 TODO
