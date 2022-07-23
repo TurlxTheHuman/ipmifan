@@ -38,6 +38,12 @@ You can run it in the same terminal
 if you want it to be running despite closing ssh terminal
 > screen -S ipmifan node ipmifan.js
 
+Other Options
+-----------
+
+You can set a static fan speed using:
+> node ipmifan.js -m [VALUE]
+
 
 TODO
 --------------
