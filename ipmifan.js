@@ -87,9 +87,6 @@ if (config["temp-metric"] == "f") {
     console.log("Config Error: Temp Metric Error (c/f)")
 }
 
-//get temps
-//NOTE, ADD IF STATEMENT TO CHECK IF FANS WILL BE AT THE SAME PERCENTAGE AS THEY ARE USING "fan_speed" IN THE TEMP CHECK LOOP
-
 //gets temperature and changes fan speed based on config setting
 function checkloop() {
     var quiet_time_activation = 0;
