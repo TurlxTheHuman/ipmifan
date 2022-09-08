@@ -4,13 +4,10 @@ ipmifan made by @tur_lx on Instagram
 This is a fairly simple script that controls server fans based off a pre-determined fan curve.
 This is great for small homelabs that may be in a room you dont want a ton of noise in, like a bedroom
 
-
 future plans if for this script to calculate the speed the fan should be when the temperature is inbetween two values
 
 you need to have ipmitool installed on your machine
 apt-get install ipmitool
-
-
 
 Enable Manual Fan Control:
 ipmitool raw 0x30 0x30 0x01 0x00
@@ -25,6 +22,7 @@ const config = require("./config.json");
 const { exec } = require("child_process");
 const { stdout } = require("process");
 var quiet_mode_force_on = ''
+var debug_mode = false
 quiet_mode_force_on = config["activation-settings"]["quiet-mode-force-on"]
 
 //ENABLES MANUAL FAN CONTROL
@@ -39,6 +37,7 @@ commander
   .usage('[OPTIONS]...')
   .option('-m, --manual <value>', 'Sets A Static Fan Speed')
   .option('-q, --quiet', 'Forces To Use Quiet Mode Fan Curve')
+  .option('-d, --debug', 'Displays Current Fan Speed and System Temperature')
   .parse(process.argv);
   const options = commander.opts();
 
@@ -49,6 +48,10 @@ if (options.manual) {
 if (options.quiet) {
     quiet_mode_force_on = true
     console.log(quiet_mode_force_on)
+}
+
+if (options.debug) {
+    debug_mode = true
 }
 
 
@@ -123,8 +126,9 @@ function checkloop() {
         if (closest_fan_speed != fan_speed) {
             fanspeed(closest_fan_speed)
         } else {
-            console.clear()
-            return console.log(`Quiet Mode: | Speed: ${fan_speed} | TEMP: ${temp}`)
+            if (debug_mode == true) {
+                return console.log(`Quiet Mode: | Speed: ${fan_speed} | TEMP: ${temp}`)
+            }
         }
 
     } else {
@@ -143,8 +147,9 @@ function checkloop() {
         if (closest_fan_speed != fan_speed) {
             fanspeed(closest_fan_speed)
         } else {
-            console.clear()
-            return console.log(`Normal Mode: | Speed: ${fan_speed} | TEMP: ${temp}`)
+            if (debug_mode == true) {
+                return console.log(`Normal Mode: | Speed: ${fan_speed} | TEMP: ${temp}`)
+            }
         }
     }
 }
@@ -158,8 +163,9 @@ function fanspeed(percentage) {
             console.log(`error: ${error.message}`);
             return;
         }
-        console.clear()
-        return console.log(`New Fan Speed Set | Speed: ${fan_speed} | TEMP: ${temp}`)
+        if (debug_mode == true) {
+            return console.log(`New Fan Speed: | Speed: ${fan_speed} | TEMP: ${temp}`)
+        }
     });
 }
 
