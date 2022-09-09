@@ -23,3 +23,5 @@ EOF
 systemctl start ipmifan.service
 systemctl daemon-reload
 systemctl enable ipmifan.service
+
+cd..
