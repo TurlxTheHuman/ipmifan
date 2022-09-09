@@ -21,6 +21,7 @@ Installation:
 apt-get install ipmitool nodejs npm screen git -y
 git https://github.com/TurlxTheHuman/ipmifan/
 cd ./ipmifan/
+sh install.sh
 
 #Enable Manual Fan Control:
 ipmitool raw 0x30 0x30 0x01 0x00
