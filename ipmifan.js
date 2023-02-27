@@ -97,20 +97,24 @@ function checkloop() {
     current_time = time.getHours() + ':' + ('0' + time.getMinutes()).slice(-2);
     current_time_seconds = current_time.split(":")[0] * 3600 + current_time.split(":")[1] * 60;
     // if time activation is enables and within set time
-    //this time check is quite flawed but works within the hours I want it to be activated within probably could do it another way
+    // this time check is quite flawed but works within the hours I want it to be activated within probably could do it another way
     if (config["activation-settings"]["quiet-mode-time-activation"] == true) {
         if (current_time_seconds >= quiet_start_seconds && twentyfour_hour >= current_time_seconds || current_time_seconds <= quiet_end_seconds && current_time_seconds < twentyfour_hour) {
+            // enables quiet mode
             quiet_time_activation = 1
         } else {
+            // disables quiet mode
             quiet_time_activation = 0
+
         }
     }
+    // get current temperature
     exec(sensor_temperature_command, (error, stdout) => {
         temp = stdout
     })
 
     if (quiet_time_activation == "1" | quiet_mode_force_on == true) {
-        //enable quiet fan curve | grab fan curve values
+        //enable quiet fan curve | grab fan curve values | get closest temp to current temp
         const closest = quiet_temp.reduce((prev, curr) => {
             return (Math.abs(curr - temp) < Math.abs(prev - temp) ? curr : prev);
         });
